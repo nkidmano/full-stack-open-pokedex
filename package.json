@@ -11,7 +11,7 @@
     "eslint": "eslint './**/*.{js,jsx}'",
     "eslint-fix": "eslint --fix './**/*.{js,jsx}'",
     "build": "webpack --mode production",
-    "deploy": "fly deploy"
+    "deploy": "fly deploy --remote-only"
   },
   "repository": {
     "type": "git",

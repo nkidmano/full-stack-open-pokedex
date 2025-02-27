@@ -7,19 +7,21 @@ on:
 
 jobs:
   simple_deployment_pipeline:
+    name: Simple deployment pipeline
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
+      - uses: superfly/flyctl-actions/setup-flyctl@master
         with:
           node-version: '20'
       - name: Install dependencies
         run: npm ci
-      - name: Install Playwright Browsers
+      - name: Install playwright browsers
         run: npx playwright install --with-deps
       - name: Check style
         run: npm run eslint
-      - name: Check Unit Test
+      - name: Check unit test
         run: npm run test
       - name: E2E tests
         run: npm run test:e2e
@@ -29,3 +31,9 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
+      - name: Build application
+        run: npm run build
+      - name: Deploy
+        run: npm run deploy
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
